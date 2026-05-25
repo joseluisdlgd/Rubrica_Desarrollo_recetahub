@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RecetaHub — Tu cocina, tu estilo</title>
+<link rel="stylesheet" href="../stylesandtt/styles.css"/>
+<link rel="stylesheet" href="../stylesandtt/Tutorial.css"/>
+</head>
+<body>
+
+<!-- ══════ AUTH ══════ -->
+<div class="page" id="page-auth">
+  <div class="auth-video-panel">
+    <video id="auth-video" autoplay muted loop playsinline>
+      <source src="../video_login/cooking.mp4" type="video/mp4"/>
+    </video>
+    <div class="auth-video-overlay">
+      <div class="brand">RecetaHub</div>
+      <div class="tagline">Descubre, crea y comparte recetas increíbles con tu comunidad de chefs.</div>
+      <div class="auth-badges">
+        <span class="auth-badge">🌿 Recetas saludables</span>
+        <span class="auth-badge">👨‍🍳 Comunidad activa</span>
+        <span class="auth-badge">⭐ Guarda favoritas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-panel">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <h1>RecetaHub</h1>
+        <p>Tu cocina, tu estilo</p>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuth('login')">Iniciar sesión</button>
+        <button class="auth-tab" onclick="switchAuth('register')">Registrarse</button>
+      </div>
+
+      <div id="auth-login">
+        <div class="form-group">
+          <label class="form-label">Correo electrónico</label>
+          <input class="form-input" id="l-email" type="email" placeholder="tu@correo.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input class="form-input" id="l-pass" type="password" placeholder="••••••••"
+            onkeydown="if(event.key==='Enter') doLogin()"/>
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Entrar →</button>
+        <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">
+          Cualquier correo y contraseña funciona para probar
+        </p>
+      </div>
+
+      <div id="auth-register" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Nombre completo</label>
+          <input class="form-input" id="r-nombre" type="text" placeholder="Tu nombre"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Correo electrónico</label>
+          <input class="form-input" id="r-email" type="email" placeholder="tu@correo.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input class="form-input" id="r-pass" type="password" placeholder="Mínimo 6 caracteres"/>
+        </div>
+        <button class="btn-primary" onclick="doRegister()">Crear cuenta →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ APP ══════ -->
+<div class="page" id="page-app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-logo" onclick="showView('explorar')">
+      <div class="logo-dot"></div>RecetaHub
+    </div>
+    <nav class="topbar-nav">
+      <div class="tnav active" id="tnav-explorar"  onclick="showView('explorar')">Explorar</div>
+      <div class="tnav"        id="tnav-crear"      onclick="showView('crear')">Crear receta</div>
+      <div class="tnav"        id="tnav-guardadas"  onclick="showView('guardadas')">Guardadas</div>
+      <div class="tnav"        id="tnav-perfil"     onclick="showView('perfil')">Mi perfil</div>
+    </nav>
+    <div class="topbar-right">
+      <button class="btn-icon" id="btn-dark" onclick="toggleDark()" title="Modo oscuro">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </button>
+      <button class="btn-new" onclick="showView('crear')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nueva receta
+      </button>
+      <div class="user-av" id="user-avatar" onclick="showView('perfil')"></div>
+      <button class="btn-icon" onclick="logout()" title="Cerrar sesión">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- WELCOME BAR -->
+  <div class="welcome-bar">
+    <div>
+      <div class="wb-greeting" id="wb-greeting">Hola — cargando…</div>
+      <div class="wb-phrase"   id="wb-phrase"></div>
+    </div>
+    <div class="wb-stats">
+      <div class="wb-stat"><div class="wb-num" id="hs-recetas">0</div><div class="wb-lbl">Recetas</div></div>
+      <div class="wb-stat"><div class="wb-num" id="hs-usuarios">0</div><div class="wb-lbl">Chefs</div></div>
+      <div class="wb-stat"><div class="wb-num" id="hs-guardadas">0</div><div class="wb-lbl">Guardadas</div></div>
+      <div class="wb-stat"><div class="wb-num" id="hs-likes">0</div><div class="wb-lbl">Me gustas</div></div>
+    </div>
+  </div>
+
+  <!-- ══ LAYOUT EXPLORAR / GUARDADAS / PERFIL ══ -->
+  <div class="app-layout" id="view-explorar">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sb-search">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input placeholder="Buscar recetas…" oninput="onSearch(this.value)"/>
+      </div>
+
+      <span class="s-label">Tipo</span>
+      <div class="s-item active" onclick="setFiltroTipo('Todos',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Todos
+      </div>
+      <div class="s-item" onclick="setFiltroTipo('Desayuno',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+        Desayuno
+      </div>
+      <div class="s-item" onclick="setFiltroTipo('Almuerzo',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        Almuerzo
+      </div>
+      <div class="s-item" onclick="setFiltroTipo('Cena',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+        Cena
+      </div>
+      <div class="s-item" onclick="setFiltroTipo('Postre',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Postre
+      </div>
+      <div class="s-item" onclick="setFiltroTipo('Snack',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Snack
+      </div>
+
+      <span class="s-label">Dieta</span>
+      <div class="s-tags" id="dieta-tags">
+        <div class="s-tag" onclick="setFiltroDieta('Vegetariana',this)">Vegetariana</div>
+        <div class="s-tag" onclick="setFiltroDieta('Vegana',this)">Vegana</div>
+        <div class="s-tag" onclick="setFiltroDieta('Sin gluten',this)">Sin gluten</div>
+        <div class="s-tag" onclick="setFiltroDieta('Normal',this)">Normal</div>
+      </div>
+
+      <span class="s-label">Tiempo</span>
+      <div class="s-tags" id="tiempo-tags">
+        <div class="s-tag" onclick="setFiltroTiempo('&lt;15 min',this)">&lt;15 min</div>
+        <div class="s-tag" onclick="setFiltroTiempo('15-30 min',this)">15–30 min</div>
+        <div class="s-tag" onclick="setFiltroTiempo('30-60 min',this)">30–60 min</div>
+        <div class="s-tag" onclick="setFiltroTiempo('&gt;60 min',this)">&gt;60 min</div>
+      </div>
+
+      <span class="s-label">Dificultad</span>
+      <div class="s-tags" id="dif-tags">
+        <div class="s-tag" onclick="setFiltroDif('Fácil',this)">Fácil</div>
+        <div class="s-tag" onclick="setFiltroDif('Media',this)">Media</div>
+        <div class="s-tag" onclick="setFiltroDif('Difícil',this)">Difícil</div>
+      </div>
+
+      <div class="sb-recents">
+        <div class="sb-r-lbl">Más vistas</div>
+        <div id="sb-recents"></div>
+      </div>
+
+      <div class="sb-user">
+        <div class="sb-uav" id="sb-avatar"></div>
+        <div class="sb-uname" id="sb-username"></div>
+        <svg class="sb-logout" onclick="logout()" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Salir"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <div class="main-header">
+        <div>
+          <div class="main-title" id="main-title">Explorar recetas</div>
+          <div class="main-sub"   id="main-sub">cargando…</div>
+        </div>
+      </div>
+      <div class="sort-row">
+        <button class="sort-btn active" onclick="setSort('popular',this)">Populares</button>
+        <button class="sort-btn"        onclick="setSort('reciente',this)">Recientes</button>
+        <button class="sort-btn"        onclick="setSort('rapido',this)">Más rápidas</button>
+        <button class="sort-btn"        onclick="setSort('valorada',this)">Mejor valoradas</button>
+        <button class="sort-btn"        onclick="setSort('calorias',this)">Menos calorías</button>
+      </div>
+      <div class="recipe-list" id="recipe-list"></div>
+    </main>
+
+    <!-- PANEL DETALLE -->
+    <aside class="detail-panel" id="detail-panel"></aside>
+
+  </div><!-- fin view-explorar -->
+
+  <!-- ══ VISTA CREAR ══ -->
+  <div class="create-view" id="view-crear" style="display:none">
+
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <div class="create-cols">
+
+      <!-- COLUMNA FORMULARIO -->
+      <div>
+
+        <!-- 1. INFO BÁSICA -->
+        <div class="c-section">
+          <div class="cs-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Información básica
+          </div>
+          <div class="fg">
+            <span class="flbl">Nombre de la receta *</span>
+            <input class="fi" id="c-nombre" type="text" placeholder="Ej: Lasaña gratinada de champiñones" oninput="actualizarPreview()"/>
+          </div>
+          <div class="fg">
+            <span class="flbl">Descripción breve</span>
+            <textarea class="fi" id="c-desc" style="height:64px;resize:none" placeholder="Describe tu receta en pocas palabras…"></textarea>
+          </div>
+          <div class="frow">
+            <div class="fg" style="margin-bottom:0">
+              <span class="flbl">Tipo</span>
+              <select class="fi" id="c-tipo" onchange="actualizarPreview()">
+                <option>Desayuno</option><option>Almuerzo</option><option>Cena</option>
+                <option>Postre</option><option>Snack</option>
+              </select>
+            </div>
+            <div class="fg" style="margin-bottom:0">
+              <span class="flbl">Dieta</span>
+              <select class="fi" id="c-dieta" onchange="actualizarPreview()">
+                <option>Normal</option><option>Vegetariana</option><option>Vegana</option>
+                <option>Sin gluten</option><option>Baja en calorías</option>
+              </select>
+            </div>
+            <div class="fg" style="margin-bottom:0">
+              <span class="flbl">Tiempo</span>
+              <select class="fi" id="c-tiempo" onchange="actualizarPreview()">
+                <option>&lt;15 min</option><option>15-30 min</option>
+                <option>30-60 min</option><option>&gt;60 min</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow2" style="margin-top:10px">
+            <div class="fg" style="margin-bottom:0">
+              <span class="flbl">Porciones</span>
+              <input class="fi" id="c-porciones" type="number" min="1" max="20" value="4" oninput="actualizarCalorias()"/>
+            </div>
+            <div class="fg" style="margin-bottom:0">
+              <span class="flbl">Dificultad</span>
+              <select class="fi" id="c-dificultad">
+                <option>Fácil</option><option>Media</option><option>Difícil</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg" style="margin-top:12px">
+            <span class="flbl">Foto de la receta</span>
+            <div class="drop-zone" onclick="document.getElementById('file-input').click()"
+                 ondragover="event.preventDefault();this.style.borderColor='var(--text)'"
+                 ondragleave="this.style.borderColor=''"
+                 ondrop="handleDrop(event)">
+              <div class="dz-icon" id="dz-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+              <div class="dz-txt" id="dz-txt">Arrastra tu foto aquí o haz clic</div>
+              <div class="dz-hint">JPG, PNG — máx 5 MB</div>
+              <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileInput(this)"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. INGREDIENTES -->
+        <div class="c-section">
+          <div class="cs-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            Ingredientes
+          </div>
+          <button class="import-btn" onclick="importarTexto()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            Importar desde texto
+          </button>
+          <div class="ing-builder" id="ing-builder">
+            <div class="ing-row">
+              <input class="fi" type="text" placeholder="Ingrediente" oninput="actualizarCalorias();actualizarPreview()"/>
+              <input class="fi" type="text" placeholder="Cant."/>
+              <select class="unit-sel"><option>taza</option><option>g</option><option>kg</option><option>ml</option><option>l</option><option>cdta</option><option>cda</option><option>und</option><option>oz</option></select>
+              <button class="rmv-btn" onclick="removeRow(this)" aria-label="Eliminar">✕</button>
+            </div>
+          </div>
+          <button class="add-row-btn" onclick="addIngRow()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar ingrediente
+          </button>
+        </div>
+
+        <!-- 3. PASOS -->
+        <div class="c-section">
+          <div class="cs-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Pasos de preparación
+          </div>
+          <div class="step-builder" id="steps-builder">
+            <div>
+              <div class="step-brow">
+                <div class="step-bnum">1</div>
+                <textarea class="step-barea" placeholder="Describe el primer paso…"></textarea>
+                <button class="rmv-btn" style="margin-top:8px;margin-left:6px" onclick="removeRow(this)" aria-label="Eliminar">✕</button>
+              </div>
+              <div class="step-timer">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Temporizador opcional:
+                <input type="number" placeholder="—" min="1"/> min
+              </div>
+            </div>
+          </div>
+          <button class="add-row-btn" onclick="addStepRow()" style="margin-top:8px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar paso
+          </button>
+          <div class="drag-hint" style="margin-top:8px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            Arrastra los pasos para reordenar
+          </div>
+        </div>
+
+        <!-- 4. PUBLICAR -->
+        <div class="c-section">
+          <div class="cs-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Publicación
+          </div>
+          <div class="fg">
+            <span class="flbl">Etiquetas personalizadas</span>
+            <div class="tags-row">
+              <div class="tag-chip" data-tag="rapido"   onclick="toggleTag(this)">#rápido</div>
+              <div class="tag-chip" data-tag="familiar" onclick="toggleTag(this)">#familiar</div>
+              <div class="tag-chip" data-tag="saludable"onclick="toggleTag(this)">#saludable</div>
+              <div class="tag-chip" data-tag="festivo"  onclick="toggleTag(this)">#festivo</div>
+              <div class="tag-chip" data-tag="economico"onclick="toggleTag(this)">#económico</div>
+              <div class="tag-chip" data-tag="gourmet"  onclick="toggleTag(this)">#gourmet</div>
+            </div>
+          </div>
+          <div class="fg">
+            <span class="flbl">Visibilidad</span>
+            <div class="vis-row">
+              <div class="vis-opt active" onclick="setVisibilidad('publica',this)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Pública
+              </div>
+              <div class="vis-opt" onclick="setVisibilidad('amigos',this)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Amigos
+              </div>
+              <div class="vis-opt" onclick="setVisibilidad('privada',this)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Solo yo
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="fa-btn" onclick="showView('explorar')">Cancelar</button>
+            <button class="fa-btn" onclick="toast('Borrador guardado')">Guardar borrador</button>
+            <button class="fa-btn primary" onclick="guardarReceta()">
+              Publicar receta
+            </button>
+          </div>
+        </div>
+
+      </div><!-- fin columna formulario -->
+
+      <!-- COLUMNA DERECHA: PREVIEW + CALORÍAS -->
+      <div class="preview-panel">
+        <div class="preview-lbl">Vista previa</div>
+        <div class="preview-card">
+          <div class="pc-img" id="pc-img">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div class="pc-img-lbl" id="pc-tipo-lbl">Tipo</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-name" id="pc-name">Nombre de la receta</div>
+            <div class="pc-auth" id="pc-auth">por Chef</div>
+            <div class="pc-pills" id="pc-pills"></div>
+            <div class="pc-footer">
+              <span>♥ 0</span>
+              <span>★ —</span>
+              <span>👁 0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cal-box">
+          <div class="cal-lbl">Estimado de calorías</div>
+          <div class="cal-num" id="cal-num">—</div>
+          <div class="cal-sub" id="cal-sub">Agrega ingredientes para estimar</div>
+          <div class="macro macro-prot">
+            <div class="macro-top">
+              <span>Proteínas</span>
+              <span id="macro-prot-val">—</span>
+            </div>
+            <div class="macro-bar"><div class="macro-fill"></div></div>
+          </div>
+          <div class="macro macro-carb">
+            <div class="macro-top">
+              <span>Carbohidratos</span>
+              <span id="macro-carb-val">—</span>
+            </div>
+            <div class="macro-bar"><div class="macro-fill"></div></div>
+          </div>
+          <div class="macro macro-fat">
+            <div class="macro-top">
+              <span>Grasas</span>
+              <span id="macro-fat-val">—</span>
+            </div>
+            <div class="macro-bar"><div class="macro-fill"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- fin create-cols -->
+  </div><!-- fin view-crear -->
+
+</div><!-- fin page-app -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+
+<!-- TUTORIAL: botón flotante ? -->
+<button class="tut-trigger" onclick="tutShow(true)" title="Ver tutorial">?</button>
+
+<script src="../JS/app.js"></script>
+<script src="../JS/tutorial.js"></script>
+<script>
+// Filtros helpers (invocan app.js)
+function setFiltroTipo(v,btn) {
+  filtros.tipo = v;
+  document.querySelectorAll('.s-item').forEach(el=>el.classList.remove('active'));
+  btn.classList.add('active');
+  renderExplorar();
+}
+function setFiltroDieta(v,btn) {
+  if(filtros.dieta===v){filtros.dieta='Todos';btn.classList.remove('active');}
+  else{
+    filtros.dieta=v;
+    document.querySelectorAll('#dieta-tags .s-tag').forEach(el=>el.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderExplorar();
+}
+function setFiltroTiempo(v,btn){
+  if(filtros.tiempo===v){filtros.tiempo='Todos';btn.classList.remove('active');}
+  else{
+    filtros.tiempo=v;
+    document.querySelectorAll('#tiempo-tags .s-tag').forEach(el=>el.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderExplorar();
+}
+function setFiltroDif(v,btn){
+  if(filtros.dificultad===v){filtros.dificultad='Todos';btn.classList.remove('active');}
+  else{
+    filtros.dificultad=v;
+    document.querySelectorAll('#dif-tags .s-tag').forEach(el=>el.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderExplorar();
+}
+
+// Drag & drop foto
+function handleDrop(e){
+  e.preventDefault();
+  e.currentTarget.style.borderColor='';
+  const file = e.dataTransfer.files[0];
+  if(file && file.type.startsWith('image/')) previewFile(file);
+}
+function handleFileInput(input){
+  const file = input.files[0];
+  if(file) previewFile(file);
+}
+function previewFile(file){
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const box = document.getElementById('pc-img');
+    box.style.backgroundImage = `url(${e.target.result})`;
+    box.style.backgroundSize  = 'cover';
+    box.style.backgroundPosition='center';
+    box.querySelector('svg')?.remove();
+    document.getElementById('dz-txt').textContent = '✓ ' + file.name;
+    document.getElementById('dz-icon').textContent = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+// Importar desde texto
+function importarTexto(){
+  const txt = prompt('Pega tu lista de ingredientes (uno por línea):\nEj: 2 tazas de harina\n1 huevo\n½ taza de azúcar');
+  if(!txt) return;
+  const lines = txt.split('\n').map(l=>l.trim()).filter(Boolean);
+  const b = document.getElementById('ing-builder');
+  b.innerHTML = '';
+  lines.forEach(line=>{
+    const d = document.createElement('div'); d.className='ing-row';
+    d.innerHTML=`<input class="fi" type="text" value="${line.replace(/"/g,'&quot;')}" placeholder="Ingrediente" oninput="actualizarCalorias();actualizarPreview()"/>
+      <input class="fi" type="text" placeholder="Cant."/>
+      <select class="unit-sel"><option>und</option><option>taza</option><option>g</option><option>kg</option><option>ml</option><option>cdta</option><option>cda</option></select>
+      <button class="rmv-btn" onclick="removeRow(this)" aria-label="Eliminar">✕</button>`;
+    b.appendChild(d);
+  });
+  actualizarCalorias(); actualizarPreview();
+  toast(`${lines.length} ingredientes importados`);
+}
+
+// Sync tipo en preview
+document.addEventListener('DOMContentLoaded',()=>{
+  const tipoSel = document.getElementById('c-tipo');
+  if(tipoSel) tipoSel.addEventListener('change',()=>{
+    const lbl = document.getElementById('pc-tipo-lbl');
+    if(lbl) lbl.textContent = tipoSel.value;
+  });
+});
+</script>
+</body>
+</html>

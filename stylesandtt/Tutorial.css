@@ -1,0 +1,193 @@
+/* ══════════════════════════════════════════
+   RecetaHub 2.0 — tutorial.css  (minimal)
+══════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&display=swap');
+
+/* ── OVERLAY ── */
+.tut-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(8,18,8,.82);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  animation: tut-fadein .2s ease;
+}
+.tut-overlay.closing { animation: tut-fadeout .18s ease forwards; }
+@keyframes tut-fadein  { from { opacity:0 } to { opacity:1 } }
+@keyframes tut-fadeout { from { opacity:1 } to { opacity:0 } }
+
+/* ── MODAL ── */
+.tut-modal {
+  width: 100%; max-width: 580px;
+  background: var(--surface);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  border: 1px solid var(--border);
+  box-shadow: 0 32px 80px rgba(0,0,0,.5);
+  animation: tut-slidein .28s cubic-bezier(.22,.68,0,1.2);
+}
+@keyframes tut-slidein {
+  from { transform: translateY(18px) scale(.96); opacity:0 }
+  to   { transform: translateY(0) scale(1); opacity:1 }
+}
+
+/* ── HERO imagen grande ── */
+.tut-hero {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.tut-hero-img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: opacity .4s ease;
+}
+.tut-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,26,10,.88) 0%, rgba(10,26,10,.25) 60%, transparent 100%);
+}
+.tut-hero-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 16px 22px;
+}
+.tut-hero-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(149,213,178,.18);
+  border: 1px solid rgba(149,213,178,.3);
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 10px; font-weight: 600; color: #95d5b2;
+  text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 6px;
+}
+.tut-hero-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 300; font-size: 26px;
+  color: #fff; line-height: 1.15; letter-spacing: -.3px;
+}
+.tut-hero-title em { font-style: italic; color: #95d5b2; }
+
+/* Cerrar */
+.tut-close {
+  position: absolute; top: 12px; right: 12px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(0,0,0,.35); border: none;
+  color: rgba(255,255,255,.7); font-size: 15px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .15s; z-index: 10;
+  backdrop-filter: blur(4px);
+}
+.tut-close:hover { background: rgba(0,0,0,.6); color:#fff; }
+
+/* ── TABS pill-style ── */
+.tut-tabs {
+  display: flex; gap: 4px;
+  padding: 10px 16px 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; flex-shrink: 0;
+}
+.tut-tab {
+  padding: 6px 14px; font-size: 11px; font-weight: 600;
+  color: var(--muted); cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid transparent; border-bottom: none;
+  transition: all .15s; white-space: nowrap;
+  background: none; font-family: var(--font-body);
+  margin-bottom: -1px;
+}
+.tut-tab:hover { color: var(--text); }
+.tut-tab.active {
+  color: var(--accent); background: var(--bg);
+  border-color: var(--border);
+  font-weight: 700;
+}
+
+/* ── BODY ── */
+.tut-body {
+  padding: 20px 22px 18px;
+  background: var(--bg);
+  overflow-y: auto; flex: 1;
+}
+
+/* ── FEATURE LIST — lo central ── */
+.tut-features {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 18px;
+}
+.tut-feat {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 14px;
+  transition: border-color .15s;
+}
+.tut-feat:hover { border-color: var(--border-strong); }
+.tut-feat-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--green-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.tut-feat-text strong {
+  display: block; font-size: 13px; font-weight: 700;
+  color: var(--text); margin-bottom: 1px;
+}
+.tut-feat-text span {
+  font-size: 11px; color: var(--muted); line-height: 1.4;
+}
+
+/* ── NAV FOOTER ── */
+.tut-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.tut-nav-btn {
+  padding: 8px 20px; border-radius: 10px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: all .15s; font-family: var(--font-body);
+  border: 1.5px solid var(--border);
+  background: transparent; color: var(--muted);
+}
+.tut-nav-btn:hover { border-color: var(--text); color: var(--text); }
+.tut-nav-btn.tut-primary {
+  background: linear-gradient(135deg, #1b4332, #2d6a4f);
+  color: #fff; border-color: transparent;
+  padding: 8px 24px;
+  box-shadow: 0 2px 12px rgba(27,67,50,.35);
+}
+.tut-nav-btn.tut-primary:hover { opacity: .88; }
+.tut-nav-btn:disabled { opacity: 0; pointer-events: none; }
+
+.tut-dots { display: flex; gap: 5px; align-items: center; }
+.tut-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); cursor: pointer; transition: all .2s;
+}
+.tut-dot.active { background: var(--green); width: 18px; border-radius: 3px; }
+
+/* ── TRIGGER ── */
+.tut-trigger {
+  position: fixed; bottom: 20px; right: 20px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #1b4332; border: none; color: #95d5b2;
+  font-size: 16px; font-weight: 600; cursor: pointer;
+  box-shadow: 0 2px 14px rgba(0,0,0,.25);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s; z-index: 9000;
+  font-family: 'Fraunces', serif;
+}
+.tut-trigger:hover { background: #2d6a4f; transform: scale(1.08); }
+
+/* ── Clases legacy que tutorial.js todavía puede emitir (ocultas) ── */
+.tut-3col, .tut-callout, .tut-tips,
+.tut-prog, .tut-create-cols, .tut-saved-grid, .tut-profile-cols { display: none !important; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .tut-hero { height: 160px; }
+  .tut-hero-title { font-size: 20px; }
+  .tut-modal { max-height: 92vh; }
+  .tut-body { padding: 16px 16px 14px; }
+}
