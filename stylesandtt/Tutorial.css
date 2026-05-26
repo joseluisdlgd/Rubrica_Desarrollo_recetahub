@@ -1,6 +1,3 @@
-/* ══════════════════════════════════════════
-   RecetaHub 2.0 — tutorial.css  (minimal)
-══════════════════════════════════════════ */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&display=swap');
 
 /* ── OVERLAY ── */
@@ -16,7 +13,6 @@
 @keyframes tut-fadein  { from { opacity:0 } to { opacity:1 } }
 @keyframes tut-fadeout { from { opacity:1 } to { opacity:0 } }
 
-/* ── MODAL ── */
 .tut-modal {
   width: 100%; max-width: 580px;
   background: var(--surface);
@@ -32,7 +28,6 @@
   to   { transform: translateY(0) scale(1); opacity:1 }
 }
 
-/* ── HERO imagen grande ── */
 .tut-hero {
   position: relative;
   height: 200px;
@@ -68,7 +63,6 @@
 }
 .tut-hero-title em { font-style: italic; color: #95d5b2; }
 
-/* Cerrar */
 .tut-close {
   position: absolute; top: 12px; right: 12px;
   width: 28px; height: 28px; border-radius: 50%;
@@ -80,7 +74,6 @@
 }
 .tut-close:hover { background: rgba(0,0,0,.6); color:#fff; }
 
-/* ── TABS pill-style ── */
 .tut-tabs {
   display: flex; gap: 4px;
   padding: 10px 16px 0;
@@ -104,14 +97,14 @@
   font-weight: 700;
 }
 
-/* ── BODY ── */
+
 .tut-body {
   padding: 20px 22px 18px;
   background: var(--bg);
   overflow-y: auto; flex: 1;
 }
 
-/* ── FEATURE LIST — lo central ── */
+
 .tut-features {
   display: flex; flex-direction: column; gap: 8px;
   margin-bottom: 18px;
@@ -138,7 +131,6 @@
   font-size: 11px; color: var(--muted); line-height: 1.4;
 }
 
-/* ── NAV FOOTER ── */
 .tut-nav {
   display: flex; justify-content: space-between; align-items: center;
   padding-top: 14px; border-top: 1px solid var(--border);

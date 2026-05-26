@@ -1,7 +1,3 @@
-// ══════════════════════════════════════════
-// RecetaHub 2.0 — tutorial.js  (minimal)
-// ══════════════════════════════════════════
-
 const TUT_KEY     = 'rh_tutorial_seen';
 const TUT_VERSION = 'v3';
 

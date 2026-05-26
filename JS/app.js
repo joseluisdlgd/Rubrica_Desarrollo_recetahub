@@ -1,8 +1,4 @@
-// ══════════════════════════════════════════
-// RecetaHub 2.0 — app.js (unified)
-// ══════════════════════════════════════════
 
-// ── ESTADO ──
 let usuarios = JSON.parse(localStorage.getItem('rh_usuarios') || '[]');
 let recetas   = JSON.parse(localStorage.getItem('rh_recetas')  || '[]');
 let sesion    = JSON.parse(localStorage.getItem('rh_sesion')   || 'null');
@@ -91,7 +87,7 @@ function initApp() {
   document.getElementById('sb-username').textContent    = sesion.nombre;
   updateWelcomeBar();
   showView('explorar');
-  if (typeof tutShow === 'function') setTimeout(() => tutShow(false), 350);
+  if (typeof tutShow === 'function') setTimeout(() => tutShow(true), 350);
 }
 
 function updateWelcomeBar() {
@@ -114,7 +110,7 @@ function phraseOfDay() {
   return phrases[new Date().getDay() % phrases.length];
 }
 
-// ══ VISTAS ══
+// VISTAS 
 function showView(v) {
   document.getElementById('view-explorar').style.display = 'none';
   document.getElementById('view-crear').style.display    = 'none';
@@ -139,7 +135,7 @@ function showView(v) {
   }
 }
 
-// ══ EXPLORAR ══
+// EXPLORAR
 function renderExplorar() {
   updateMainHeader('Explorar recetas');
   let lista = getFilteredList();
@@ -359,7 +355,7 @@ function eliminarReceta(id) {
   else renderExplorar();
 }
 
-// ── GUARDAR / LIKE ──
+// GUARDAR y LIKE 
 function toggleSave(id, btn) {
   const u = getUser(); if(!u) return;
   const idx = (u.guardadas||[]).indexOf(id);
@@ -375,7 +371,7 @@ function toggleSaveDetail(id, btn) {
   updateUser(u); save(); updateWelcomeBar();
 }
 
-// ── SIDEBAR ──
+// SIDEBAR 
 function setFiltro(tipo, valor, btn) {
   filtros[tipo] = valor;
   if (btn) {
@@ -405,7 +401,7 @@ function renderSidebarRecents() {
     </div>`).join('');
 }
 
-// ══ CREAR RECETA ══
+// ══ CREAR RECETA 
 function initCrearView() {
   renderProgressBar(createStep);
   actualizarPreview();
@@ -488,7 +484,7 @@ function actualizarPreview() {
   tags.forEach(t => pills.innerHTML += `<span class="pc-pill">#${t}</span>`);
 }
 
-// ── ESTIMADOR DE CALORÍAS ──
+// ── ESTIMADOR DE CALORÍAS 
 const KCAL_MAP = {
   'harina':364,'azúcar':387,'aceite':884,'mantequilla':717,'leche':42,
   'huevo':155,'huevos':155,'queso':402,'arroz':130,'pasta':131,'pan':265,
@@ -562,7 +558,7 @@ function setVisibilidad(val, btn) {
   btn.classList.add('active');
 }
 
-// ── GUARDAR RECETA ──
+// ── GUARDAR RECETA 
 function guardarReceta() {
   const nombre = document.getElementById('c-nombre').value.trim();
   if (!nombre) { toast('El nombre es obligatorio'); return; }
@@ -607,7 +603,7 @@ function guardarReceta() {
   showView('explorar');
 }
 
-// ══ UTILS ══
+// ══ UTILS 
 function getUser() { return sesion ? usuarios.find(u => u.id === sesion.id) || sesion : null; }
 function updateUser(u) { const i = usuarios.findIndex(x => x.id===u.id); if(i>-1) usuarios[i]=u; sesion=u; }
 
@@ -628,7 +624,7 @@ function loadDemo() {
     usuarios.push({ id:AID, nombre:'Chef Demostración', email:'demo@recetahub.com', pass:'demo', guardadas:[], misRecetas:[] });
 
   const DEMO = [
-    // ── COLOMBIANAS ──
+    // ── COLOMBIANAS 
     { nombre:'Ajiaco', emoji:'🍲',
       photoUrl:'https://tofuu.getjusto.com/orioneat-local/resized2/G8bjaSqGdhWepTkrr-1101-x.webp',
       tipo:'Almuerzo', dieta:'Sin gluten', tiempo:'30-60 min', porciones:'6', dificultad:'Media',
@@ -765,7 +761,7 @@ function loadDemo() {
   save(); localStorage.setItem('rh_demo_ver', VER);
 }
 
-// ══ ARRANQUE ══
+// ══ ARRANQUE 
 sesion = null;
 localStorage.removeItem('rh_sesion');
 
